@@ -15,6 +15,8 @@ This assignment makes use of data from a personal activity monitoring device. Th
 #Solution
 
 ```{r}
+knitr::opts_chunk$set(echo = TRUE)
+
 #Set working directory to the directory where the unzipped data file is located
 
 #Clean workspace

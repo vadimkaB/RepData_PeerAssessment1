@@ -121,7 +121,9 @@ $(document).ready(function () {
 </div>
 <div id="solution" class="section level1">
 <h1>Solution</h1>
-<pre class="r"><code>#Set working directory to the directory where the unzipped data file is located
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
+
+#Set working directory to the directory where the unzipped data file is located
 
 #Clean workspace
 rm(list=ls())
