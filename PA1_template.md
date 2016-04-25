@@ -1,10 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document: 
-    keep_md: yes
-    self_contained: no
----
+# Reproducible Research: Peer Assessment 1
 
 #Introduction
 
@@ -14,7 +8,8 @@ This assignment makes use of data from a personal activity monitoring device. Th
 
 #Solution
 
-```{r}
+
+```r
 #Set working directory to the directory where the unzipped data file is located
 
 #Clean workspace
@@ -29,7 +24,16 @@ activity <- read.csv("activity.csv")
 
 #High level look of the data
 str(activity[1:5,])
+```
 
+```
+## 'data.frame':	5 obs. of  3 variables:
+##  $ steps   : int  NA NA NA NA NA
+##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1
+##  $ interval: int  0 5 10 15 20
+```
+
+```r
 # Clean data
 activityClean <- na.omit(activity)
 
@@ -46,11 +50,28 @@ hist(stepsByDate$steps, breaks=seq(from=0, to=25000, by=2500),
      col="green", 
      xlab="Total number of steps", 
      main="The total number of steps taken each day")
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-1-1.png)
+
+```r
 #Mean and median number of steps taken each day
 mean(stepsByDate[,2], na.rm = TRUE)
-median(stepsByDate[,2], na.rm = TRUE)
+```
 
+```
+## [1] 10766.19
+```
+
+```r
+median(stepsByDate[,2], na.rm = TRUE)
+```
+
+```
+## [1] 10765
+```
+
+```r
 #Time series plot of the average number of steps taken
 stepsbyInterval <- ddply(activityClean, "interval", summarize, steps = mean(steps))
 stepsbyInterval$steps <- round(stepsbyInterval$steps,0)
@@ -58,16 +79,32 @@ plot(stepsbyInterval$interval, stepsbyInterval$steps, type = "l", col="red",
      xlab = "5-minute interval",
      ylab="Average number of steps", 
      main="The average number of steps taken for every 5 minute interval")
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-1-2.png)
+
+```r
 #The 5-minute interval that, on average, contains the maximum number of steps
 stepsbyInterval[which(grepl(max(stepsbyInterval$steps), stepsbyInterval$steps)),1]
+```
 
+```
+## [1] 835
+```
+
+```r
 #Imputing missing values
 
 #Calculate and report the total number of missing values in the dataset 
 numNAs <- as.data.frame(table(complete.cases(activity)))
 numNAs[1,2]
+```
 
+```
+## [1] 2304
+```
+
+```r
 #create a vector which replaces NAs with mean values for the particular interval 
 a <- numeric()
 for (i in 1:length(activity$steps)) {
@@ -96,11 +133,28 @@ hist(stepsByDate$steps, breaks=seq(from=0, to=25000, by=2500),
      col="blue", 
      xlab="Total number of steps", 
      main="The total number of steps taken each day (NAs replaced)")
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-1-3.png)
+
+```r
 #Mean and median number of steps taken each day
 mean(stepsByDate[,2])
-median(stepsByDate[,2])
+```
 
+```
+## [1] 10765.64
+```
+
+```r
+median(stepsByDate[,2])
+```
+
+```
+## [1] 10762
+```
+
+```r
 #Assign day type
 activityNew$weekday <- ifelse(weekdays(activityNew$date) == "Saturday", "weekend", ifelse(weekdays(activityNew$date) == "Sunday", "weekend", "weekday"))
 
@@ -124,3 +178,5 @@ plot(stepsbyIntervalWE$interval, stepsbyIntervalWE$steps, type = "l", col="green
      ylab="Average number of steps", 
      main="The average steps during Weekend")
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-1-4.png)
